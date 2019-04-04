@@ -27,6 +27,7 @@ var (
 	groupFlag    = flag.String("group", "", "Grouping functions by packages and/or types [pkg, type] (separated by comma)")
 	limitFlag    = flag.String("limit", "", "Limit package paths to given prefixes (separated by comma)")
 	ignoreFlag   = flag.String("ignore", "", "Ignore package paths containing given prefixes (separated by comma)")
+	ignoreNameFlag = flag.String("ignore_name", "", "Ignore func or paths containing given words (separated by comma)")
 	includeFlag  = flag.String("include", "", "Include package paths with given prefixes (separated by comma)")
 	nostdFlag    = flag.Bool("nostd", false, "Omit calls to/from packages in standard library.")
 	nointerFlag  = flag.Bool("nointer", false, "Omit calls to unexported functions.")

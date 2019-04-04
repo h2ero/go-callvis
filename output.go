@@ -22,7 +22,7 @@ func inStd(node *callgraph.Node) bool {
 }
 
 func printOutput(prog *ssa.Program, mainPkg *types.Package, cg *callgraph.Graph, focusPkg *build.Package,
-	limitPaths, ignorePaths, includePaths []string, groupBy []string, nostd, nointer bool) ([]byte, error) {
+	limitPaths, ignorePaths, includePaths []string, groupBy []string, nostd, nointer bool, ignoreNames []string) ([]byte, error) {
 	var groupType, groupPkg bool
 	for _, g := range groupBy {
 		if g == "pkg" {
@@ -113,6 +113,7 @@ func printOutput(prog *ssa.Program, mainPkg *types.Package, cg *callgraph.Graph,
 	var inIgnores = func(node *callgraph.Node) bool {
 		pkgPath := node.Func.Pkg.Pkg.Path()
 		for _, p := range ignorePaths {
+			fmt.Println(pkgPath, p)
 			if strings.HasPrefix(pkgPath, p) {
 				return true
 			}
@@ -193,6 +194,16 @@ func printOutput(prog *ssa.Program, mainPkg *types.Package, cg *callgraph.Graph,
 		//data, _ := json.MarshalIndent(caller.Func, "", " ")
 		//logf("call node: %s -> %s\n %v", caller, callee, string(data))
 		logf("call node: %s -> %s (%s -> %s) %v\n", caller.Func.Pkg, callee.Func.Pkg, caller, callee, filename)
+		logf("callee name %s", callee)
+		calleeName := fmt.Sprintf("%s", callee)
+
+		for _,v := range(ignoreNames) {
+			if strings.Contains(calleeName, v) {
+				logf("skip call node: %s -> %s (%s -> %s) %v\n, words: %s", caller.Func.Pkg, callee.Func.Pkg, caller, callee, filename, v)
+				return nil
+			}
+		}
+
 
 		var sprintNode = func(node *callgraph.Node) *dotNode {
 			// only once

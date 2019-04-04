@@ -13,6 +13,7 @@ func analysisSetup() (r renderOpts) {
 		focus:   *focusFlag,
 		group:   []string{*groupFlag},
 		ignore:  []string{*ignoreFlag},
+		ignoreName:  []string{*ignoreNameFlag},
 		include: []string{*includeFlag},
 		limit:   []string{*limitFlag},
 		nointer: *nointerFlag,
@@ -44,6 +45,15 @@ func processListArgs(r *renderOpts) (e error) {
 		}
 	}
 	r.ignore = ignorePaths
+
+	var ignoreNames []string
+	for _, p := range strings.Split(r.ignoreName[0], ",") {
+		p = strings.TrimSpace(p)
+		if p != "" {
+			ignoreNames = append(ignoreNames, p)
+		}
+	}
+	r.ignoreName = ignoreNames
 
 	var includePaths []string
 	for _, p := range strings.Split(r.include[0], ",") {

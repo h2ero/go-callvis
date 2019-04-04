@@ -29,3 +29,8 @@ _testmain.go
 # Builds
 build/
 go-callvis
+
+*.sw*
+.DS_Store
+tags
+vendor/*

@@ -87,6 +87,7 @@ type renderOpts struct {
 	focus   string
 	group   []string
 	ignore  []string
+	ignoreName  []string
 	include []string
 	limit   []string
 	nointer bool
@@ -126,7 +127,7 @@ func (a *analysis) render(opts renderOpts) ([]byte, error) {
 	}
 
 	dot, err := printOutput(a.prog, a.mains[0].Pkg, a.result.CallGraph,
-		focusPkg, opts.limit, opts.ignore, opts.include, opts.group, opts.nostd, opts.nointer)
+		focusPkg, opts.limit, opts.ignore, opts.include, opts.group, opts.nostd, opts.nointer, opts.ignoreName)
 	if err != nil {
 		return nil, fmt.Errorf("processing failed: %v", err)
 	}
